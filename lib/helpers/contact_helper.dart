@@ -1,6 +1,5 @@
 import 'package:contacts/models/contact.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:contacts/models/contact.dart';
 import 'package:path/path.dart';
 import 'dart:async';
 
