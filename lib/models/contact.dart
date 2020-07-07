@@ -14,6 +14,9 @@ class Contact {
   String _phone;
   String _image;
 
+
+  Contact();
+
   get id => _id;
   set id(int id) => this._id = id;
 
