@@ -8,27 +8,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   ContactRepository _contactRepository = ContactRepository();
+
+  List<Contact> _contacts = List();
 
   @override
   void initState() {
     super.initState();
-    
-    /*Contact contact = Contact();
-    contact.name = 'Helena Vanessa Jennifer Teixeira';
-    contact.email = 'helenavanessajenniferteixeira@vivo.com.br';
-    contact.phone = '(91) 2613-5767';
-    contact.image = 'imgtest';
-    _contactRepository.save(contact);
-    */
-    _contactRepository.findAll().then((value) => print(value));
+    _contactRepository.findAll().then((contacts) {
+      setState(() => this._contacts = contacts);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Contatos'),
+        backgroundColor: Colors.red,
+        centerTitle: true,
+      ),
+      backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+        backgroundColor: Colors.red,
+      ),
+      body: ListView.builder(
+        padding: EdgeInsets.all(10.0),
+        itemCount: _contacts.length,
+        itemBuilder: (context, index) {
+          return;
+        },
+      ),
     );
   }
 }
