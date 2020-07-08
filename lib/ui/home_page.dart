@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:contacts/helpers/contact_image.dart';
 import 'package:contacts/models/contact.dart';
 import 'package:contacts/repositories/contact_repository.dart';
 import 'package:contacts/ui/contact_page.dart';
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: _getImageContact(_contacts[index].image),
+                  image: ContactImage.get(_contacts[index].image),
                 ),
               ),
             ),
@@ -103,18 +104,6 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  ImageProvider _getImageContact(String image) {
-    if (image == null) {
-      return const AssetImage('images/person.png');
-    } else {
-      final _imageFile = File(image);
-      if (_imageFile.existsSync())
-        return FileImage(_imageFile);
-      else
-        return AssetImage('images/person.png');
-    }
   }
 
   void _showContactPage({Contact contact}) async {

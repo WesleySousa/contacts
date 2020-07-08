@@ -1,9 +1,8 @@
 import 'dart:io';
 
+import 'package:contacts/helpers/contact_image.dart';
 import 'package:flutter/material.dart';
 
-import '../models/contact.dart';
-import '../models/contact.dart';
 import '../models/contact.dart';
 
 class ContactPage extends StatefulWidget {
@@ -70,7 +69,7 @@ class _ContactPageState extends State<ContactPage> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: _getImageContact(_contact.image),
+                    image: ContactImage.get(_contact.image),
                   ),
                 ),
               ),
@@ -109,17 +108,5 @@ class _ContactPageState extends State<ContactPage> {
         ),
       ),
     );
-  }
-
-  ImageProvider _getImageContact(String image) {
-    if (image == null) {
-      return const AssetImage('images/person.png');
-    } else {
-      final _imageFile = File(image);
-      if (_imageFile.existsSync())
-        return FileImage(_imageFile);
-      else
-        return AssetImage('images/person.png');
-    }
   }
 }
