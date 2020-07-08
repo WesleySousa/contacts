@@ -1,5 +1,6 @@
 import 'package:contacts/helpers/contact_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../models/contact.dart';
 
 class ContactPage extends StatefulWidget {
@@ -72,6 +73,15 @@ class _ContactPageState extends State<ContactPage> {
                     ),
                   ),
                 ),
+                onTap: () {
+                  ImagePicker imagePicker = ImagePicker();
+                  imagePicker
+                      .getImage(source: ImageSource.camera)
+                      .then((value) {
+                    if (value == null) return;
+                    setState(() => _contact.image = value.path);
+                  });
+                },
               ),
               TextField(
                 controller: _nameController,

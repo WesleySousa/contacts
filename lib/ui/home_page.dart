@@ -65,6 +65,7 @@ class _HomePageState extends State<HomePage> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: ContactImage.get(_contacts[index].image),
+                  fit: BoxFit.cover
                 ),
               ),
             ),
