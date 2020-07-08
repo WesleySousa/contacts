@@ -1,4 +1,3 @@
-
 import 'package:contacts/helpers/contact_image.dart';
 import 'package:contacts/models/contact.dart';
 import 'package:contacts/repositories/contact_repository.dart';
@@ -55,7 +54,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _contactCard(BuildContext context, int index) {
     return GestureDetector(
-      onTap: () => _showContactPage(contact: _contacts[index]),
+      onTap: () => _showOptions(context, index),
       child: Card(
         child: Row(
           children: <Widget>[
@@ -100,6 +99,62 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _showOptions(BuildContext context, int index) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return BottomSheet(
+          onClosing: () {},
+          builder: (context) {
+            return Container(
+              padding: EdgeInsets.all(10.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  _buttonBottomSheet(
+                    'Ligar',
+                    onPressed: () {},
+                  ),
+                  _buttonBottomSheet(
+                    'Editar',
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _showContactPage(contact: _contacts[index]);
+                    },
+                  ),
+                  _buttonBottomSheet(
+                    'Excluir',
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _contactRepository.delete(_contacts[index].id);
+                      setState(() => _contacts.removeAt(index));
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buttonBottomSheet(String name, {Function onPressed}) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: FlatButton(
+        onPressed: onPressed,
+        child: Text(
+          name,
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 20.0,
+          ),
         ),
       ),
     );
