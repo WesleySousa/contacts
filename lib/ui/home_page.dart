@@ -3,7 +3,7 @@ import 'package:contacts/models/contact.dart';
 import 'package:contacts/repositories/contact_repository.dart';
 import 'package:contacts/ui/contact_page.dart';
 import 'package:flutter/material.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../models/contact.dart';
 
 class HomePage extends StatefulWidget {
@@ -118,7 +118,10 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   _buttonBottomSheet(
                     'Ligar',
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                      launch('tel:${_contacts[index].phone}');
+                    },
                   ),
                   _buttonBottomSheet(
                     'Editar',
