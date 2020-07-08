@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:contacts/models/contact.dart';
 import 'package:contacts/repositories/contact_repository.dart';
+import 'package:contacts/ui/contact_page.dart';
 import 'package:flutter/material.dart';
+
+import '../models/contact.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,6 +20,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _loadContacts();
+  }
+
+  void _loadContacts() {
     _contactRepository.findAll().then((contacts) {
       setState(() => this._contacts = contacts);
     });
@@ -32,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: _showContactPage,
         child: Icon(Icons.add),
         backgroundColor: Colors.red,
       ),
@@ -48,6 +55,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _contactCard(BuildContext context, int index) {
     return GestureDetector(
+      onTap: () => _showContactPage(contact: _contacts[index]),
       child: Card(
         child: Row(
           children: <Widget>[
@@ -106,6 +114,26 @@ class _HomePageState extends State<HomePage> {
         return FileImage(_imageFile);
       else
         return AssetImage('images/person.png');
+    }
+  }
+
+  void _showContactPage({Contact contact}) async {
+    final recContact = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ContactPage(
+          contact: contact,
+        ),
+      ),
+    );
+
+    if (recContact != null) {
+      if (contact != null) {
+        await _contactRepository.update(recContact);
+      } else {
+        await _contactRepository.save(recContact);
+      }
+      _loadContacts();
     }
   }
 }
