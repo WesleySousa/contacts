@@ -60,7 +60,7 @@ class _ContactPageState extends State<ContactPage> {
         body: SingleChildScrollView(
           padding: EdgeInsets.all(10.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
                 child: Container(
@@ -70,6 +70,7 @@ class _ContactPageState extends State<ContactPage> {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: ContactImage.get(_contact.image),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -80,6 +81,7 @@ class _ContactPageState extends State<ContactPage> {
                       .then((value) {
                     if (value == null) return;
                     setState(() => _contact.image = value.path);
+                    _userEdited = true;
                   });
                 },
               ),

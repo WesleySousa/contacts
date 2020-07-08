@@ -1,6 +1,7 @@
 import 'package:contacts/helpers/contact_image.dart';
 import 'package:contacts/models/contact.dart';
 import 'package:contacts/repositories/contact_repository.dart';
+import 'package:contacts/ui/Order_contact_option.dart';
 import 'package:contacts/ui/contact_page.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,6 +36,21 @@ class _HomePageState extends State<HomePage> {
         title: Text('Contatos'),
         backgroundColor: Colors.red,
         centerTitle: true,
+        actions: <Widget>[
+          PopupMenuButton<OrderContactOption>(
+            itemBuilder: (context) => <PopupMenuEntry<OrderContactOption>>[
+              const PopupMenuItem<OrderContactOption>(
+                child: Text('Ordenar de A-Z'),
+                value: OrderContactOption.ORDER_A_Z,
+              ),
+              const PopupMenuItem<OrderContactOption>(
+                child: Text('Ordenar de Z-A'),
+                value: OrderContactOption.ORDER_Z_A,
+              ),
+            ],
+            onSelected: (order) => _orderList(order),
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
@@ -52,6 +68,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _orderList(OrderContactOption order) {
+    switch (order) {
+      case OrderContactOption.ORDER_A_Z:
+        _contacts.sort(
+            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+        break;
+      case OrderContactOption.ORDER_Z_A:
+        _contacts.sort(
+            (a, b) => b.name.toLowerCase().compareTo(a.name.toLowerCase()));
+        break;
+    }
+    setState(() {});
+  }
+
   Widget _contactCard(BuildContext context, int index) {
     return GestureDetector(
       onTap: () => _showOptions(context, index),
@@ -64,9 +94,8 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: ContactImage.get(_contacts[index].image),
-                  fit: BoxFit.cover
-                ),
+                    image: ContactImage.get(_contacts[index].image),
+                    fit: BoxFit.cover),
               ),
             ),
             Padding(
