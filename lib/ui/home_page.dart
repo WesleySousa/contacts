@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:contacts/helpers/contact_image.dart';
 import 'package:contacts/models/contact.dart';
